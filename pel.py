@@ -63,14 +63,12 @@ elif st.session_state.page == 'page2':
 
      # Integrasi Google Maps
 st.write("*🗺️ Kiraan Jarak Melalui Google Maps:*")
-if alamat_p and alamat_d:
-    # Bina link Google Maps yang betul
-    maps_url = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+")
-    # Papar butang besar
-    st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
-else:
-    st.info("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
-
+if 'alamat_p' in locals() and 'alamat_d' in locals():
+    if alamat_p and alamat_d:
+        maps_url = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+")
+        st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
+    else:
+        st.info("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
 st.divider()
 
 # --- Bahagian ini mesti berada di LUAR blok if/else (sejajar ke kiri) ---
