@@ -62,15 +62,35 @@ elif st.session_state.page == 'page2':
         st.write("---")
 
         # Integrasi Google Maps
-        st.write("🛰️ *Kiraan Jarak Melalui Google Maps:*")
-        if alamat_p and alamat_d:
-            maps_url =f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ","+")
-            st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
-        else:
-            st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
+         st.write("---")
+    if alamat_p and alamat_d:
+        # Link untuk bawa alamat P dan D terus ke Google Maps
+        link_maps = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+").
+        st.link_button("🌐 BUKA GOOGLE MAPS & LIHAT JARAK", link_maps, use_container_width=True)
+    else:
+        st.info("Sila isi alamat P dan D untuk aktifkan pautan Google Maps.")
 
-        # Input Jarak & Pengiraan Harga
-        jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
+    st.divider()
+
+    # Input Jarak secara manual (Anda tengok kat Google Maps, baru taip sini)
+    jarak = st.number_input("Masukkan Jarak (KM) secara manual", min_value=0.0, step=0.1)
+    kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
+
+    # --- LOGIK HARGA ---
+    harga = 0.0
+    if kategori == "Motor":
+        base = 5.0 if jarak <= 5 else 2.5
+        harga = base + (1.0 * jarak)
+    elif kategori == "Kereta":
+        base = 7.5 if jarak <= 10 else 5.0
+        harga = base + (1.5 * jarak)
+    elif kategori == "4x4":
+        base = 15.0 if jarak <= 10 else 10.0
+        harga = base + (2.3 * jarak)
+
+# Input jarak manual (lepas anda tengok kat Google Maps)
+kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
+# --- HABIS TAMPAL ---
         
         # LOGIK HARGA (DARI LAKARAN)
         kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
