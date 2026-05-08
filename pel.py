@@ -62,7 +62,7 @@ elif st.session_state.page == 'page2':
         st.write("---")
 
         # Integrasi Google Maps
-         st.write("---")
+    st.write("---")
     if alamat_p and alamat_d:
         # Link untuk bawa alamat P dan D terus ke Google Maps
         link_maps = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+").
