@@ -75,8 +75,10 @@ st.divider()
 # Input Jarak & Pengiraan Harga
 jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
 
-# LOGIK HARGA (DARI LAKARAN)
+# --- LOGIK PENGIRAAN HARGA ---
+kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
 harga = 0.0
+
 if kategori == "Motor":
     base = 5.0 if jarak <= 5 else 2.5
     harga = base + (1.0 * jarak)
@@ -87,13 +89,14 @@ elif kategori == "4x4":
     base = 15.0 if jarak <= 10 else 10.0
     harga = base + (2.3 * jarak)
 
+# --- PAPARAN HARGA & PERSETUJUAN ---
 st.subheader(f"💵 ESTIMASI HARGA: RM {harga:.2f}")
 st.write("⚠️ Pembayaran ketika item sampai (COD)")
 setuju = st.checkbox("Saya bersetuju dengan harga di atas")
 
-# Butang Submit
+# --- BUTANG SUBMIT ---
 if st.button("🚀 SUBMIT TEMPAHAN"):
     if setuju and jarak > 0:
         st.success("Tempahan Berjaya Didaftar!")
     else:
-        st.error("Sila tanda persetujuan dan pastikan jarak diisi.")
+        st.error("Sila tanda persetujuan dan pastikan jarak (KM) telah diisi.")
