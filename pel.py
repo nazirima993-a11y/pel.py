@@ -92,8 +92,8 @@ elif st.session_state.page == 'page2':
 kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
 # --- HABIS TAMPAL ---
         
-        # LOGIK HARGA (DARI LAKARAN)
-        kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
+        # LOGIK HARGA (DARI LAKARAN) 
+    kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
         harga = 0.0
         if kategori == "Motor":
             base = 5.0 if jarak <= 5 else 2.5
