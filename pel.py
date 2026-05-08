@@ -65,7 +65,7 @@ elif st.session_state.page == 'page2':
     st.write("---")
     if alamat_p and alamat_d:
         # Link untuk bawa alamat P dan D terus ke Google Maps
-        link_maps = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+").
+        link_maps = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+")
         st.link_button("🌐 BUKA GOOGLE MAPS & LIHAT JARAK", link_maps, use_container_width=True)
     else:
         st.info("Sila isi alamat P dan D untuk aktifkan pautan Google Maps.")
