@@ -119,3 +119,4 @@ elif st.session_state.page == 'page2':
     # Butang Kembali ke Page 1 (Diluar Form)
     if st.button("⬅️ KEMBALI KE MENU"):
         pindah_halaman('page1')
+       st.form_submit_button("hantar")
