@@ -107,7 +107,7 @@ elif st.session_state.page == 'page2':
         setuju = st.checkbox("Saya bersetuju dengan harga di atas")
         
         # Butang Submit Form
-        submit_btn = st.form_submit_button("SUBMIT ✅", use_container_width=True)
+        submit_btn = st.form_submit_button("SUBMIT ✅", use_container_width=True, key="submit_1")
         
         if submit_btn:
             if setuju and nama and jarak > 0:
@@ -117,6 +117,6 @@ elif st.session_state.page == 'page2':
                 st.error("Sila lengkapkan maklumat, isi jarak, dan tanda persetujuan.")
 
     # Butang Kembali ke Page 1 (Diluar Form)
-    if st.button("⬅️ KEMBALI KE MENU"):
-        pindah_halaman('page1')
-       st.form_submit_button("hantar")
+  
+ 
+  
