@@ -1,66 +1,105 @@
 import streamlit as st
+import urllib.parse
 import datetime
 
-# Setup Page
-st.set_page_config(page_title="BERDESUP DELIVERY", layout="centered")
+# --- CONFIGURATION ---
+st.set_page_config(page_title="BERDESUP DELIVERY SYSTEM", layout="centered")
 
+# Inisialisasi status halaman (Session State)
 if 'page' not in st.session_state:
     st.session_state.page = 'page1'
 
-def go_to(page_name):
-    st.session_state.page = page_name
+# Fungsi Navigasi
+def pindah_halaman(nama_halaman):
+    st.session_state.page = nama_halaman
+    st.rerun()
 
-# --- PAGE 1: UTAMA ---
+# ==========================================
+# PAGE 1: MENU UTAMA
+# ==========================================
 if st.session_state.page == 'page1':
-    st.title("🚀 BERDESUP DELIVERY")
-    st.write("Selamat Datang ke Sistem Penghantaran")
+    st.markdown("<h1 style='text-align: center;'>🚀 BERDESUP DELIVERY</h1>", unsafe_allow_html=True)
+    st.divider()
     
-    if st.button("DAFTAR JOB BARU"):
-        go_to('page2')
-
-# --- PAGE 2: DAFTAR JOB ---
-elif st.session_state.page == 'page2':
-    st.title("📝 DAFTAR JOB")
-    
-    # Maklumat Asas
-    nama = st.text_input("Nama Pelanggan")
-    kategori = st.selectbox("Kategori", ["Motor", "Kereta", "4x4"])
-    
-    st.write("---")
-    
-    # Bahagian Alamat
     col1, col2 = st.columns(2)
-    with col1:
-        st.subheader("📍 Pick Up")
-        alamat_p = st.text_input("Alamat (P)")
-        tel_p = st.text_input("No. Tel (P)")
     
+    with col1:
+        if st.button("① DAFTAR JOB", use_container_width=True, type="primary"):
+            pindah_halaman('page2')
+            
     with col2:
-        st.subheader("🏁 Drop Off")
-        alamat_d = st.text_input("Alamat (D)")
-        tel_d = st.text_input("No. Tel (D)")
+        if st.button("② MONITORING JOB", use_container_width=True):
+            st.info("Halaman Monitoring (Page 7) dalam pembangunan.")
 
-    st.write("---")
+# ==========================================
+# PAGE 2: BORANG DAFTAR JOB
+# ==========================================
+elif st.session_state.page == 'page2':
+    st.markdown("## 📝 DAFTAR JOB")
+    
+    with st.form("job_form"):
+        # Maklumat Pelanggan
+        nama = st.text_input("Nama Pelanggan")
+        kategori = st.selectbox("Kategori Kenderaan", ["Motor", "Kereta", "4x4"])
+        tarikh_jam = st.text_input("Tarikh & Jam", value=datetime.datetime.now().strftime("%d/%m/%Y %H:%M"))
+        
+        st.write("---")
+        
+        # Lokasi Pick Up & Drop
+        col_p, col_d = st.columns(2)
+        with col_p:
+            st.markdown("### 📍 Pick Up")
+            alamat_p = st.text_input("Alamat (P)")
+            tel_p = st.text_input("No Tel (P)")
+            kawasan_p = st.text_input("Kawasan (P)")
+            
+        with col_d:
+            st.markdown("### 🏁 Drop")
+            alamat_d = st.text_input("Alamat (D)")
+            tel_d = st.text_input("No Tel (D)")
+            kawasan_d = st.text_input("Kawasan (D)")
+            
+        st.write("---")
 
-    # Kira Harga & Maps
-    jarak = st.number_input("Masukkan Jarak (KM)", min_value=0.0, step=0.1)
-    harga = jarak * 1.50 # Harga RM1.50 per KM
-    st.subheader(f"💰 Harga Delivery: RM {harga:.2f}")
+        # Integrasi Google Maps
+        st.write("🛰️ *Kiraan Jarak Melalui Google Maps:*")
+        if alamat_p and alamat_d:
+            # URL Scheme untuk Google Maps
+            maps_url = f"https://www.google.com/maps/dir/?api=1&origin={urllib.parse.quote(alamat_p)}&destination={urllib.parse.quote(alamat_d)}&travelmode=driving"
+            st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
+        else:
+            st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
 
-    if alamat_p and alamat_d:
-        url = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}"
-        st.markdown(f"### [🌍 KLIK UNTUK GOOGLE MAPS]({url})", unsafe_allow_html=True)
-
-    st.write("---")
-
-    # Butang Navigasi
-    c1, c2 = st.columns(2)
-    with c1:
-        if st.button("⬅️ KEMBALI"):
-            go_to('page1')
-    with c2:
-        if st.button("✅ SIMPAN JOB"):
-            if jarak > 0:
-                st.success(f"Job {nama} berjaya didaftarkan!")
+        # Input Jarak & Pengiraan Harga
+        jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
+        
+        # LOGIK HARGA (DARI LAKARAN)
+        harga = 0.0
+        if kategori == "Motor":
+            base = 5.0 if jarak <= 5 else 2.5
+            harga = base + (1.0 * jarak)
+        elif kategori == "Kereta":
+            base = 7.5 if jarak <= 10 else 5.0
+            harga = base + (1.5 * jarak)
+        elif kategori == "4x4":
+            base = 15.0 if jarak <= 10 else 10.0
+            harga = base + (2.3 * jarak)
+            
+        st.subheader(f"💵 ESTIMASI HARGA: RM {harga:.2f}")
+        
+        st.write("⚠️ Pembayaran ketika item sampai (COD)")
+        setuju = st.checkbox("Saya bersetuju dengan harga di atas")
+        
+        # Butang Submit Form
+        submit_btn = st.form_submit_button("SUBMIT ✅", use_container_width=True)
+        
+        if submit_btn:
+            if setuju and nama and jarak > 0:
+                st.success(f"Job Berjaya Didaftar! ID: {kategori[:3].upper()}-{datetime.datetime.now().strftime('%H%M%S')}")
+                # Logik simpan ke Page 3 (Database) akan diletakkan di sini
             else:
-                st.warning("Sila masukkan jarak (KM) dulu.")
+                st.error("Sila lengkapkan maklumat, isi jarak, dan tanda persetujuan.")
+
+    # Butang Kembali ke Page 1 (Diluar Form)
+    if st.button("⬅️ KEMBALI KE MENU"):
+        pindah_halaman('page1')
