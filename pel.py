@@ -61,45 +61,41 @@ elif st.session_state.page == 'page2':
             
         st.write("---")
 
-        # Integrasi Google Maps
-        st.write("🛰️ *Kiraan Jarak Melalui Google Maps:*")
-        if alamat_p and alamat_d:
-            # URL Scheme untuk Google Maps
-            maps_url = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace("","+")
-            st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
-        else:
-            st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
+     # Integrasi Google Maps
+st.write("*🗺️ Kiraan Jarak Melalui Google Maps:*")
+if alamat_p and alamat_d:
+    # Bina link Google Maps yang betul
+    maps_url = f"https://www.google.com/maps/dir/{alamat_p}/{alamat_d}".replace(" ", "+")
+    # Papar butang besar
+    st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
+else:
+    st.info("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
 
-        # Input Jarak & Pengiraan Harga
-        jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps.")
-        
-        # LOGIK HARGA (DARI LAKARAN)
-        harga = 0.0
-        if kategori == "Motor":
-            base = 5.0 if jarak <= 5 else 2.5
-            harga = base + (1.0 * jarak)
-        elif kategori == "Kereta":
-            base = 7.5 if jarak <= 10 else 5.0
-            harga = base + (1.5 * jarak)
-        elif kategori == "4x4":
-            base = 15.0 if jarak <= 10 else 10.0
-            harga = base + (2.3 * jarak)
-            
-        st.subheader(f"💵 ESTIMASI HARGA: RM {harga:.2f}")
-        
-        st.write("⚠️ Pembayaran ketika item sampai (COD)")
-        setuju = st.checkbox("Saya bersetuju dengan harga di atas")
-        
-        # Butang Submit Form
-        submit_btn = st.form_submit_button("SUBMIT ✅", use_container_width=True)
-        
-        if submit_btn:
-            if setuju and nama and jarak > 0:
-                st.success(f"Job Berjaya Didaftar! ID: {kategori[:3].upper()}-{datetime.datetime.now().strftime('%H%M%S')}")
-                # Logik simpan ke Page 3 (Database) akan diletakkan di sini
-            else:
-                st.error("Sila lengkapkan maklumat, isi jarak, dan tanda persetujuan.")
+st.divider()
 
-    # Butang Kembali ke Page 1 (Diluar Form)
-    if st.button("⬅️ KEMBALI KE MENU"):
-        pindah_halaman('page1')
+# --- Bahagian ini mesti berada di LUAR blok if/else (sejajar ke kiri) ---
+# Input Jarak & Pengiraan Harga
+jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
+
+# LOGIK HARGA (DARI LAKARAN)
+harga = 0.0
+if kategori == "Motor":
+    base = 5.0 if jarak <= 5 else 2.5
+    harga = base + (1.0 * jarak)
+elif kategori == "Kereta":
+    base = 7.5 if jarak <= 10 else 5.0
+    harga = base + (1.5 * jarak)
+elif kategori == "4x4":
+    base = 15.0 if jarak <= 10 else 10.0
+    harga = base + (2.3 * jarak)
+
+st.subheader(f"💵 ESTIMASI HARGA: RM {harga:.2f}")
+st.write("⚠️ Pembayaran ketika item sampai (COD)")
+setuju = st.checkbox("Saya bersetuju dengan harga di atas")
+
+# Butang Submit
+if st.button("🚀 SUBMIT TEMPAHAN"):
+    if setuju and jarak > 0:
+        st.success("Tempahan Berjaya Didaftar!")
+    else:
+        st.error("Sila tanda persetujuan dan pastikan jarak diisi.")
