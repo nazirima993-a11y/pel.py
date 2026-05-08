@@ -64,10 +64,10 @@ elif st.session_state.page == 'page2':
         # Integrasi Google Maps
         st.write("🛰️ *Kiraan Jarak Melalui Google Maps:*")
         if alamat_p and alamat_d:
-            url = 
+            maps_url = 
        f"https://www.google.com/maps/dir/{alamat_p}
        /{alamat_d}".replace("","+")
-            st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", url, use_container_width=True)
+            st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
         else:
             st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
 
