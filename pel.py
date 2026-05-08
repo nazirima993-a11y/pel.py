@@ -87,13 +87,9 @@ elif st.session_state.page == 'page2':
     elif kategori == "4x4":
         base = 15.0 if jarak <= 10 else 10.0
         harga = base + (2.3 * jarak)
-
-# Input jarak manual (lepas anda tengok kat Google Maps)
-kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
-# --- HABIS TAMPAL ---
         
         # LOGIK HARGA (DARI LAKARAN) 
- kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
+        kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
         harga = 0.0
         if kategori == "Motor":
             base = 5.0 if jarak <= 5 else 2.5
