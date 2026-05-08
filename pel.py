@@ -73,6 +73,7 @@ elif st.session_state.page == 'page2':
         jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
         
         # LOGIK HARGA (DARI LAKARAN)
+        kategori = st.selectbox("Pilih Jenis Kenderaan:", ["Motor", "Kereta", "4x4"])
         harga = 0.0
         if kategori == "Motor":
             base = 5.0 if jarak <= 5 else 2.5
