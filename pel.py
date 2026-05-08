@@ -71,7 +71,7 @@ elif st.session_state.page == 'page2':
             st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
 
         # Input Jarak & Pengiraan Harga
-        jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps", min_value=0.0, step=0.1)
+        jarak = st.number_input("Masukkan Jarak (KM) dari Google Maps.")
         
         # LOGIK HARGA (DARI LAKARAN)
         harga = 0.0
