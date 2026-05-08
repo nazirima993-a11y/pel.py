@@ -65,7 +65,7 @@ elif st.session_state.page == 'page2':
         st.write("🛰️ *Kiraan Jarak Melalui Google Maps:*")
         if alamat_p and alamat_d:
             # URL Scheme untuk Google Maps
-            maps_url = f"https://www.google.com/maps/dir/?api=1&origin={urllib.parse.quote(alamat_p)}&destination={urllib.parse.quote(alamat_d)}&travelmode=driving"
+            maps_url = f"https://www.google.com/maps/dir/(alamat_p)/(alamat_d)".replace("","+")
             st.link_button("🚀 BUKA GOOGLE MAPS (KLIK SINI)", maps_url, use_container_width=True)
         else:
             st.caption("Sila isi alamat P dan D untuk menjana pautan Google Maps.")
